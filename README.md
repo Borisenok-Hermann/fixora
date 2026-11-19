@@ -1,7 +1,7 @@
-# Hermann's Repair – Reparatur-Kasse
+# Fixora – Repair Manager
 
-Web-App für den Handy-Reparaturshop Hermann's Repair, Bremen.
-© 2026 Dennis Hermann. **Alle Rechte vorbehalten** – siehe `LICENSE`. Nutzung, Kopie oder Weitergabe nur mit schriftlicher Erlaubnis.
+Reparatur-Kasse für Handy-Werkstätten (entwickelt für Hermann's Repair, Bremen).
+© 2026 Dennis Hermann (Fixora). **Alle Rechte vorbehalten** – siehe `LICENSE`. Nutzung, Kopie oder Weitergabe nur mit schriftlicher Erlaubnis.
 
 Installation auf dem iPhone: Seite in Safari öffnen → Teilen → „Zum Home-Bildschirm“.
 

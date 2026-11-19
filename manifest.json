@@ -1,6 +1,6 @@
 {
-  "name": "Hermann's Repair",
-  "short_name": "Hermanns Repair",
+  "name": "Fixora – Repair Manager",
+  "short_name": "Fixora",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -26,5 +26,5 @@
       "purpose": "maskable"
     }
   ],
-  "description": "Reparatur-Kasse für Hermann's Repair"
+  "description": "Fixora – Reparatur-Kasse für Handy-Werkstätten"
 }
