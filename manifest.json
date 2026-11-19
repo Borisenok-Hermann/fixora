@@ -1,6 +1,6 @@
 {
   "name": "Hermann's Repair",
-  "short_name": "Hermann's",
+  "short_name": "Hermanns Repair",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
