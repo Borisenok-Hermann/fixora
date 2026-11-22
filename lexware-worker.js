@@ -1,10 +1,10 @@
-// Fixora <-> Lexware Office: kleiner Vermittler für Cloudflare Workers. (Version 2: Kontakte abgleichen)
+// Fixora <-> Lexware Office: kleiner Vermittler für Cloudflare Workers. (Version 3: Kontakte abgleichen, Rechnungs-PDF)
 // Geheimnisse (im Worker unter "Variables and Secrets" als "Secret" anlegen):
 //   LEX_KEY      = API-Schlüssel aus Lexware Office (Erweiterungen > Public API)
 //   FIXORA_TOKEN = Passwort aus Fixora (Mehr > Lexware)
 const ORIGIN = 'https://borisenok-hermann.github.io';
 const ALLOWED_PUT = [/^\/v1\/contacts\/[0-9a-f-]+$/];
-const ALLOWED = [/^\/v1\/profile$/, /^\/v1\/contacts$/, /^\/v1\/contacts\/[0-9a-f-]+$/, /^\/v1\/invoices$/, /^\/v1\/invoices\/[0-9a-f-]+$/];
+const ALLOWED = [/^\/v1\/invoices\/[0-9a-f-]+\/document$/, /^\/v1\/files\/[0-9a-f-]+$/, /^\/v1\/profile$/, /^\/v1\/contacts$/, /^\/v1\/contacts\/[0-9a-f-]+$/, /^\/v1\/invoices$/, /^\/v1\/invoices\/[0-9a-f-]+$/];
 
 export default {
   async fetch(req, env) {
@@ -22,10 +22,11 @@ export default {
     const url = new URL(req.url);
     const ok = (req.method === 'GET' || req.method === 'POST') ? ALLOWED.some(r => r.test(url.pathname)) : req.method === 'PUT' ? ALLOWED_PUT.some(r => r.test(url.pathname)) : false;
     if (!ok) return json({ message: 'Nicht erlaubt' }, 403);
-    const headers = { 'Authorization': 'Bearer ' + env.LEX_KEY, 'Accept': 'application/json' };
+    const isFile = /^\/v1\/files\//.test(url.pathname);
+    const headers = { 'Authorization': 'Bearer ' + env.LEX_KEY, 'Accept': isFile ? 'application/pdf' : 'application/json' };
     const hasBody = req.method === 'POST' || req.method === 'PUT';
     if (hasBody) headers['Content-Type'] = 'application/json';
     const res = await fetch('https://api.lexware.io' + url.pathname + url.search, { method: req.method, headers: headers, body: hasBody ? await req.text() : undefined });
-    return new Response(await res.text(), { status: res.status, headers: Object.assign({ 'Content-Type': 'application/json' }, cors) });
+    return new Response(await res.arrayBuffer(), { status: res.status, headers: Object.assign({ 'Content-Type': res.headers.get('Content-Type') || 'application/json' }, cors) });
   }
 };
